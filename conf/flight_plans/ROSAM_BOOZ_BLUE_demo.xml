@@ -1,0 +1,82 @@
+<!DOCTYPE flight_plan SYSTEM "flight_plan.dtd">
+
+<flight_plan alt="1470" ground_alt="1466" lat0="41.742852" lon0="-111.806738" max_dist_from_home="1000" name="Blue Room" qfu="270" security_height="2">
+  <header>
+#include "datalink.h"
+</header>
+  <waypoints>
+    <waypoint alt="1470.0" name="HOME" x="14.7" y="-11.3"/>
+    <waypoint alt="1472.0" name="CLIMB" x="14.6" y="-4.1"/>
+    <waypoint alt="1472.0" name="p1" x="7.9" y="-10.5"/>
+    <waypoint alt="1470.0" name="p2" x="25.1" y="19.6"/>
+    <waypoint alt="1470.0" name="p3" x="23.6" y="-38.9"/>
+    <waypoint alt="1470.0" name="p4" x="4.3" y="-21.9"/>
+    <waypoint alt="1470.0" name="wp1" x="24.9" y="-11.9"/>
+  </waypoints>
+  <exceptions>
+    <exception cond="datalink_time > 30" deroute="Standby"/>
+  </exceptions>
+  <blocks>
+    <block name="Wait GPS">
+      <call fun="NavKillThrottle()"/>
+      <while cond="!GpsFixValid()"/>
+    </block>
+    <block name="Geo init">
+      <while cond="LessThan(NavBlockTime(), 25)"/>
+      <call fun="NavSetGroundReferenceHere()"/>
+    </block>
+    <block name="Holding point">
+      <call fun="NavKillThrottle()"/>
+      <attitude pitch="0" roll="0" throttle="0" until="FALSE" vmode="throttle"/>
+    </block>
+    <block name="Takeoff" strip_button="Takeoff" strip_icon="takeoff.png">
+      <call fun="NavResurrect()"/>
+      <call fun="NavSetWaypointHere(WP_CLIMB)"/>
+      <while cond="LessThan(NavBlockTime(), 6)"/>
+      <go climb="0.5" vmode="climb" wp="CLIMB"/>
+    </block>
+    <block name="Standby" strip_button="Standby" strip_icon="home.png">
+      <stay wp="CLIMB"/>
+    </block>
+    <block name="stay_p1">
+      <stay wp="p1"/>
+    </block>
+    <block name="stay_p2">
+      <stay wp="p2"/>
+    </block>
+    <block name="stay_p3">
+      <stay wp="p4"/>
+    </block>
+    <block name="stay_p4">
+      <stay wp="p4"/>
+    </block>
+    <block name="line_p1_p2">
+      <go from="p1" hmode="route" wp="p2"/>
+      <go from="p2" hmode="route" wp="p1"/>
+      <go from="p1" hmode="route" wp="p3"/>
+      <deroute block="stay_p1"/>
+    </block>
+    <block name="line_p1_wp1">
+      <go from="p1" hmode="route" wp="wp1"/>
+      <stay wp="wp1"/>
+    </block>
+    <block name="route">
+      <go from="HOME" hmode="route" wp="p4"/>
+      <go from="p4" hmode="route" wp="p4"/>
+      <go from="p4" hmode="route" wp="HOME"/>
+      <stay wp="HOME"/>
+    </block>
+    <block name="circle">
+      <circle radius="5" wp="p1"/>
+    </block>
+    <block name="land">
+      <go wp="HOME"/>
+    </block>
+    <block name="ready_to_land">
+      <stay wp="HOME"/>
+    </block>
+    <block name="flare">
+      <stay climb="-0.1" vmode="climb" wp="HOME"/>
+    </block>
+  </blocks>
+</flight_plan>

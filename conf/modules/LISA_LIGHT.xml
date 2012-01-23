@@ -1,0 +1,23 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="LISA_LIGHT">
+  <header>
+    <file name="l_light.h"/>
+  </header>
+  <init fun="init_light()"/>
+  <periodic fun="periodic_light()" period="0.05" autorun="TRUE"/>
+  <makefile>
+
+<!-- 
+  <modules main_freq="512">
+    <load name="LISA_LIGHT.xml">
+       <configure name="LIGHT_1_MODE_DEFAULT" value="5"/>
+       <configure name="LIGHT_2_MODE_DEFAULT" value="0"/>
+    </load>
+  </modules>
+-->
+
+    <file name="l_light.c"/>
+  </makefile>
+</module>
+

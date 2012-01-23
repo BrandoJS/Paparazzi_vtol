@@ -1,0 +1,35 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="AggieCap">
+  <header>
+    <file name="aggie_cap.h"/>
+  </header>
+  <init fun="init_aggie_cap()"/>
+  <periodic fun="periodic_aggie_cap()" period=".01" autorun="TRUE"/>
+  <makefile>
+    <raw>
+    RADIO_CONTROL_SPEKTRUM_PRIMARY_PORT = UART5
+    MODEM_PORT = UART3
+
+    ifndef AGGIE_PORT
+    AGGIE_PORT = UART2
+    endif
+    ifndef AGGIE_BAUD
+    AGGIE_BAUD = B115200
+    endif
+    
+    ap.CFLAGS += -DUSE_$(AGGIE_PORT) -D$(AGGIE_PORT)_BAUD=$(AGGIE_BAUD)
+    ap.CFLAGS += -DUSE_AGGIE -DAGGIE_LINK=$(AGGIE_PORT)
+    </raw>
+    <define name="AggieCap"/>
+    <file name="aggie_cap.c"/>
+  </makefile>
+</module>
+
+<!-- 
+  <modules main_freq="512">
+    <load name="ROSAM_CAM.xml">
+    </load>
+  </modules>
+
+-->

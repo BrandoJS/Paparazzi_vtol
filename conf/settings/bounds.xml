@@ -1,0 +1,10 @@
+<!DOCTYPE settings SYSTEM "settings.dtd">
+
+<settings>
+  <dl_settings NAME="VertBounds">
+    <dl_settings name="VertBounds">
+      <dl_setting var="min_bound" min="0" max="50" step="1" module="guidance/guidance_v" shortname="min"/>
+      <dl_setting var="max_bound" min="0" max="50" step="1" module="guidance/guidance_v" shortname="max"/>
+    </dl_settings>
+  </dl_settings>
+</settings>

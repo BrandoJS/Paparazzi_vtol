@@ -1,0 +1,73 @@
+<!DOCTYPE flight_plan SYSTEM "flight_plan.dtd">
+
+<flight_plan alt="1360" ground_alt="1340" lat0="41.8155209" lon0="-111.9818670" max_dist_from_home="1000" name="CJ" qfu="270" security_height="2">
+
+<header>
+#include "datalink.h"
+</header>
+  <waypoints>
+    <waypoint name="HOME" x="4.8" y="7.8"/>
+    <waypoint name="CLIMB" x="3.5" y="3.5"/>
+    <waypoint name="p1" x="2.1" y="11.3"/>
+    <waypoint name="p2" x="8.9" y="11.2"/>
+    <waypoint name="p3" x="6.0" y="15.5"/>
+    <waypoint name="p4" x="6.0" y="22.0"/>
+  </waypoints>
+
+  <exceptions>
+      <exception cond="datalink_time > 30" deroute="Standby"/>
+      
+  </exceptions>
+
+  <blocks>
+    <block name="Wait GPS">
+      <call fun="NavKillThrottle()"/>
+      <while cond="!GpsFixValid()"/>
+    </block>
+    <block name="Geo init">
+      <while cond="LessThan(NavBlockTime(), 25)"/>
+      <call fun="NavSetGroundReferenceHere()"/>
+    </block>
+    <block name="Holding point">
+      <call fun="NavKillThrottle()"/>
+      <attitude pitch="0" roll="0" throttle="0" until="FALSE" vmode="throttle"/>
+    </block>
+    <block name="Takeoff" strip_button="Takeoff" strip_icon="takeoff.png">
+      <call fun="NavResurrect()"/>
+      <call fun="NavSetWaypointHere(WP_CLIMB)"/>
+      <while cond="LessThan(NavBlockTime(), 6)"/>
+      <stay height="10" vmode="alt" wp="CLIMB"/>
+    </block>
+    <block name="Standby" strip_button="Standby" strip_icon="home.png">
+      <stay height="10" vmode="alt" wp="HOME"/>
+    </block>
+    <block name="stay_p1">
+      <stay wp="p1"/>
+    </block>
+    <block name="stay_p2">
+      <stay wp="p2"/>
+    </block>
+    <block name="line_p1_p2">
+      <go from="p1" hmode="route" wp="p2"/>
+      <go from="p2" hmode="route" wp="p1"/>
+      <deroute block="stay_p1"/>
+    </block>
+    <block name="route">
+      <go from="HOME" hmode="route" wp="p3"/>
+      <go from="p3" hmode="route" wp="p4"/>
+      <go from="p4" hmode="route" wp="HOME"/>
+      <stay wp="HOME"/>
+    </block>
+    <block name="circle">
+      <circle radius="5" wp="p1"/>
+    </block>
+    <block name="land">
+      <go wp="HOME"/>
+    </block>
+    <block name="flare">
+      <exception cond="NavDetectGround()" deroute="Holding point"/>
+      <call fun="NavStartDetectGround()"/>
+      <stay climb="-0.8" vmode="climb" wp="HOME"/>
+    </block>
+  </blocks>
+</flight_plan>

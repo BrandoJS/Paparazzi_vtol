@@ -1,0 +1,22 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="ROSAM_CAM">
+  <header>
+    <file name="rcam.h"/>
+  </header>
+  <init fun="init_rcam()"/>
+  <periodic fun="periodic_rcam()" period=".25" autorun="TRUE"/>
+  <makefile>
+
+<!-- 
+  <modules main_freq="512">
+    <load name="ROSAM_CAM.xml">
+    </load>
+  </modules>
+
+-->
+    <define name="RCAM"/>
+    <file name="rcam.c"/>
+  </makefile>
+</module>
+

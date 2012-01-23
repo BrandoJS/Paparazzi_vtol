@@ -1,0 +1,154 @@
+<!DOCTYPE flight_plan SYSTEM "flight_plan.dtd">
+
+<flight_plan alt="1410" ground_alt="1350" lat0="41.8155209" lon0="-111.9818670" max_dist_from_home="1000" name="CJ" qfu="270" security_height="2">
+  <header>
+#include "datalink.h"
+</header>
+  <waypoints>
+    <waypoint name="HOME" x="0" y="0"/>
+    <waypoint alt="1471.0" name="STDBY" x="178.4" y="-5.4"/>
+    <waypoint name="A1" x="18.4" y="94.4"/>
+    <waypoint name="A2" x="-313.6" y="-119.6"/>
+    <waypoint name="A3" x="-80.3" y="-459.6"/>
+    <waypoint name="A4" x="192.0" y="-333.4"/>
+    <waypoint name="A5" x="481.0" y="-535.5"/>
+    <waypoint name="A6" x="712.2" y="-337.4"/>
+    <waypoint name="A7" x="562.2" y="-57.3"/>
+    <waypoint name="A8" x="736.3" y="70.4"/>
+    <waypoint name="A9" x="661.5" y="274.5"/>
+    <waypoint name="A10" x="416.3" y="134.6"/>
+    <waypoint name="A11" x="242.7" y="748.6"/>
+    <waypoint name="A12" x="-244.5" y="730.5"/>
+    <waypoint alt="1441.0" name="1" x="30.8" y="-224"/>
+    <waypoint alt="1441.0" name="2" x="425.4" y="-224"/>
+    <waypoint name="Too Far" x="645.3" y="237.8"/>
+    <waypoint name="CLIMB" x="280.1" y="311.9"/>
+    <waypoint alt="1441.0" name="S1" x="63.3" y="10.5"/>
+    <waypoint alt="1441.0" name="S2" x="-226.3" y="-141.6"/>
+    <waypoint alt="1441.0" name="S3" x="-69.5" y="-392.6"/>
+    <waypoint alt="1441.0" name="S4" x="212.2" y="-283.4"/>
+    <waypoint alt="1441.0" name="S5" x="476.8" y="-496.5"/>
+    <waypoint alt="1441.0" name="S6" x="669.5" y="-314.5"/>
+    <waypoint alt="1441.0" name="S7" x="509.8" y="-83.9"/>
+    <waypoint alt="1441.0" name="E1" x="108.4" y="-10.9"/>
+    <waypoint alt="1501.2" name="W1" x="276.3" y="82.4"/>
+    <waypoint alt="1501.2" name="W2" x="240.2" y="408.6"/>
+    <waypoint alt="1501.2" name="W3" x="191.5" y="584.4"/>
+    <waypoint alt="1501.2" name="W4" x="65.0" y="592.6"/>
+    <waypoint alt="1501.2" name="W5" x="-38.3" y="522.6"/>
+    <waypoint alt="1501.2" name="W6" x="50.2" y="406.6"/>
+    <waypoint alt="1501.2" name="W7" x="48.2" y="291.9"/>
+    <waypoint alt="1414.0" name="WT" x="47.2" y="353.1"/>
+    <waypoint alt="1414.0" name="W8" x="232.1" y="172.5"/>
+    <waypoint alt="1414.0" name="W9" x="246.1" y="-27.5"/>
+    <waypoint alt="1441.0" name="POPS1" x="-551.8" y="179.2"/>
+    <waypoint alt="1441.0" name="POPS2" x="-553.2" y="110.6"/>
+    <waypoint alt="1441.0" name="POPW1" x="-562.3" y="285.2"/>
+    <waypoint alt="1441.0" name="POPW2" x="-447.2" y="290.4"/>
+    <waypoint alt="1441.0" name="POPW3" x="-563.4" y="228.5"/>
+    <waypoint alt="1441.0" name="POPW4" x="-447.9" y="228.1"/>
+    <waypoint alt="1375.0" name="AF" x="-324.2" y="-49.9"/>
+    <waypoint alt="1346.0" name="TD" x="-4.2" y="-49.9"/>
+    <waypoint name="_BASELEG" x="326.8" y="142.8"/>
+    <waypoint name="land assist" x="334.2" y="-58.2"/>
+    <waypoint alt="1441.0" name="search assist" x="228.1" y="-146.7"/>
+    <waypoint alt="1448.0" name="T0" x="152.5" y="227.3"/>
+  </waypoints>
+  <sectors>
+    <sector name="FlightBoundry">
+      <corner name="A12"/>
+      <corner name="A11"/>
+      <corner name="A10"/>
+      <corner name="A9"/>
+      <corner name="A8"/>
+      <corner name="A7"/>
+      <corner name="A6"/>
+      <corner name="A5"/>
+      <corner name="A4"/>
+      <corner name="A3"/>
+      <corner name="A2"/>
+      <corner name="A1"/>
+    </sector>
+  </sectors>
+  <exceptions>
+    <exception cond="datalink_time > 30" deroute="Standby"/>
+  </exceptions>
+  <blocks>
+    <block name="Wait GPS">
+      <call fun="NavKillThrottle()"/>
+      <while cond="!GpsFixValid()"/>
+    </block>
+    <block name="Geo init">
+      <while cond="LessThan(NavBlockTime(), 25)"/>
+      <call fun="NavSetGroundReferenceHere()"/>
+    </block>
+    <block name="Holding point">
+      <call fun="NavKillThrottle()"/>
+      <attitude pitch="0" roll="0" throttle="0" until="FALSE" vmode="throttle"/>
+    </block>
+    <block name="Takeoff" strip_button="Takeoff" strip_icon="takeoff.png">
+      <call fun="NavResurrect()"/>
+      <call fun="NavSetWaypointHere(WP_CLIMB)"/>
+      <while cond="LessThan(NavBlockTime(), 6)"/>
+      <stay height="10" vmode="alt" wp="CLIMB"/>
+    </block>
+    <block name="Standby" strip_button="Standby" strip_icon="home.png">
+      <stay height="10" vmode="alt" wp="HOME"/>
+    </block>
+    <block name="Follow Waypoints">
+      <go wp="W1"/>
+    </block>
+    <block name="Waypoint 2">
+      <go wp="W2"/>
+    </block>
+    <block name="Waypoint 3">
+      <go wp="W3"/>
+    </block>
+    <block name="Waypoint 4">
+      <go wp="W4"/>
+    </block>
+    <block name="Waypoint 5">
+      <go wp="W5"/>
+    </block>
+    <block name="Waypoint 6">
+      <go wp="W6"/>
+    </block>
+    <block name="Waypoint 7">
+      <go wp="W7"/>
+    </block>
+    <block name="Waypoint 8">
+      <go wp="W8"/>
+    </block>
+    <block name="Waypoint 9">
+      <go wp="W9"/>
+    </block>
+    <block name="Waiting">
+      <stay wp="W2"/>
+    </block>
+    <block name="stay_p2">
+      <stay wp="p2"/>
+    </block>
+    <block name="line_p1_p2">
+      <go from="p1" hmode="route" wp="p2"/>
+      <go from="p2" hmode="route" wp="p1"/>
+      <deroute block="stay_p1"/>
+    </block>
+    <block name="route">
+      <go from="HOME" hmode="route" wp="p3"/>
+      <go from="p3" hmode="route" wp="p4"/>
+      <go from="p4" hmode="route" wp="HOME"/>
+      <stay wp="HOME"/>
+    </block>
+    <block name="circle">
+      <circle radius="5" wp="p1"/>
+    </block>
+    <block name="land">
+      <go wp="HOME"/>
+    </block>
+    <block name="flare">
+      <exception cond="NavDetectGround()" deroute="Holding point"/>
+      <call fun="NavStartDetectGround()"/>
+      <stay climb="-0.8" vmode="climb" wp="HOME"/>
+    </block>
+  </blocks>
+</flight_plan>

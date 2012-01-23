@@ -1,0 +1,10 @@
+<!DOCTYPE settings SYSTEM "settings.dtd">
+
+<settings>
+  <dl_settings NAME="AggieCap">
+    <dl_settings name="Aggie Cap">
+      <dl_setting var="camera_mode" min="0" max="6" step="1" module="AggieCap/aggie_cap" values="IDLE|ON|COOL|MANUAL|AUTO|STOP|RESET" shortname="Camera Mode"/>
+      <dl_setting var="track_mode" min="0" max="3" step="1" module="AggieCap/aggie_cap" values="OFF|MANUAL|AUTO|STABLE" shortname="Gimbal"/>
+    </dl_settings>
+  </dl_settings>
+</settings>

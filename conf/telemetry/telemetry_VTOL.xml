@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+<!DOCTYPE telemetry SYSTEM "telemetry.dtd">
+<telemetry>
+
+
+  <process name="Main">
+
+    <mode name="default">
+      <message name="DL_VALUE"          	period="1.1"/>
+      <message name="ROTORCRAFT_STATUS"       	period="1.2"/>
+      <message name="ROTORCRAFT_FP"          	period="0.5"/>
+      <message name="ALIVE"             	period="2.1"/>
+      <message name="INS_REF"     		period="5.1"/>
+      <message name="ROTORCRAFT_NAV_STATUS"  	period="1.6"/>
+      <message name="WP_MOVED"          	period="1.3"/>
+      <message name="BOOZ2_GPS"         	period=".47"/>
+      <message name="INS"          		period=".35"/>
+      <message name="STAB_ATTITUDE"     	period=".23"/>
+      <message name="SONAR"			period=".55" module="sonar"/>
+    </mode>
+
+    <mode name="ppm">
+      <message name="DL_VALUE"          	period="1.1"/>
+      <message name="ROTORCRAFT_STATUS"       	period="1.2"/>
+      <message name="ROTORCRAFT_FP"          	period="0.5"/>
+      <message name="ALIVE"             	period="2.1"/>
+      <message name="INS_REF"     		period="5.1"/>
+      <message name="ROTORCRAFT_NAV_STATUS"  	period="1.6"/>
+      <!-- -->
+      <message name="BOOZ2_CMD"           	period=".25"/>
+      <message name="PPM"                 	period="0.25"/>
+      <message name="RC"                  	period="0.25"/>
+      <message name="BOOZ2_RADIO_CONTROL" 	period="0.25"/>
+      
+    </mode>
+
+    <mode name="raw_sensors">
+      <message name="DL_VALUE"          	period="1.1"/>
+      <message name="ROTORCRAFT_STATUS"       	period="1.2"/>
+      <message name="ROTORCRAFT_FP"          	period="0.5"/>
+      <message name="ALIVE"             	period="2.1"/>
+      <message name="INS_REF"     		period="5.1"/>
+      <message name="ROTORCRAFT_NAV_STATUS"  	period="1.6"/>
+      <!-- -->
+      <message name="BARO_RAW"          	period=".1"/>
+      <message name="IMU_ACCEL_RAW"     	period=".05"/>
+      <message name="IMU_GYRO_RAW"      	period=".05"/>
+      <message name="IMU_MAG_RAW"       	period=".05"/>
+      
+    </mode>
+
+    <mode name="scaled_sensors">
+      <message name="DL_VALUE"          	period="1.1"/>
+      <message name="ROTORCRAFT_STATUS"       	period="1.2"/>
+      <message name="ROTORCRAFT_FP"          	period="0.5"/>
+      <message name="ALIVE"             	period="2.1"/>
+      <message name="INS_REF"     		period="5.1"/>
+      <message name="ROTORCRAFT_NAV_STATUS"  	period="1.6"/>
+      <!-- -->
+      <message name="IMU_GYRO_SCALED"        	period=".075"/>
+      <message name="IMU_ACCEL_SCALED"       	period=".075"/>
+      <message name="IMU_MAG_SCALED"         	period=".1"/>
+    </mode>
+
+    <mode name="ahrs">
+      <message name="DL_VALUE"          	period="1.1"/>
+      <message name="ROTORCRAFT_STATUS"       	period="1.2"/>
+      <message name="ROTORCRAFT_FP"          	period="0.5"/>
+      <message name="ALIVE"             	period="2.1"/>
+      <message name="INS_REF"     		period="5.1"/>
+      <message name="ROTORCRAFT_NAV_STATUS"  	period="1.6"/>
+      <!-- -->
+      <message name="FILTER"      period=".2"/>
+    </mode>
+
+    <mode name="rate_loop">
+      <message name="ROTORCRAFT_STATUS"       period="1.2"/>
+      <message name="DL_VALUE"          period="0.5"/>
+      <message name="ALIVE"             period="2.1"/>
+      <message name="RATE_LOOP"   period=".2"/>
+    </mode>
+
+    <mode name="attitude_loop">
+      <message name="DL_VALUE"          	period="1.1"/>
+      <message name="ROTORCRAFT_STATUS"       	period="1.2"/>
+      <message name="ROTORCRAFT_FP"          	period="0.5"/>
+      <message name="ALIVE"             	period="2.1"/>
+      <message name="INS_REF"     		period="5.1"/>
+      <message name="ROTORCRAFT_NAV_STATUS"  	period="1.6"/>
+      <!-- -->
+      <message name="STAB_ATTITUDE"     period=".13"/>
+      <message name="STAB_ATTITUDE_REF" period=".3"/>
+    </mode>
+
+    <mode name="vert_loop">
+      <message name="DL_VALUE"          	period="1.1"/>
+      <message name="ROTORCRAFT_STATUS"       	period="1.2"/>
+      <message name="ROTORCRAFT_FP"          	period="0.5"/>
+      <message name="ALIVE"             	period="2.1"/>
+      <message name="INS_REF"     		period="5.1"/>
+      <message name="ROTORCRAFT_NAV_STATUS"  	period="1.6"/>
+      <!-- -->
+      <message name="BARO_RAW"          	period=".31"/>
+      <message name="BOOZ2_GPS"         	period=".5"/>
+      <message name="INS"               	period=".25"/>
+      <message name="VERT_LOOP"         	period=".15"/>
+      <message name="VFF"               	period=".1"/>
+      
+    </mode>
+
+    <mode name="h_loop">
+      <message name="DL_VALUE"          	period="1.1"/>
+      <message name="ROTORCRAFT_STATUS"       	period="1.2"/>
+      <message name="ROTORCRAFT_FP"          	period="0.5"/>
+      <message name="ALIVE"             	period="2.1"/>
+      <message name="INS_REF"     		period="5.1"/>
+      <message name="ROTORCRAFT_NAV_STATUS"  	period="1.6"/>
+      <!-- -->      
+      <message name="HOVER_LOOP"        	period="0.15"/>	<!-- Hover Controller -->
+      <message name="STAB_ATTITUDE"     	period=".3"/>  	<!-- Attitude Observer -->
+      <message name="HFF_DBG"           	period=".2"/>  	<!-- HFF filter -->
+      <message name="HGAINS"			period="0.5"/> 	<!-- controller gains -->
+    </mode>
+
+    <mode name="aligner">
+      <message name="DL_VALUE"          	period="1.1"/>
+      <message name="ROTORCRAFT_STATUS"       	period="1.2"/>
+      <message name="ROTORCRAFT_FP"          	period="0.5"/>
+      <message name="ALIVE"             	period="2.1"/>
+      <message name="INS_REF"     		period="5.1"/>
+      <message name="ROTORCRAFT_NAV_STATUS"  	period="1.6"/>
+      <!-- -->      
+      <message name="FILTER_ALIGNER"   		period="0.1"/>
+    </mode>
+
+    <mode name="hs_att_roll">
+      <message name="DL_VALUE"          	period="1.1"/>
+      <message name="ROTORCRAFT_STATUS"       	period="1.2"/>
+      <message name="ROTORCRAFT_FP"          	period="0.5"/>
+      <message name="ALIVE"             	period="2.1"/>
+      <message name="INS_REF"     		period="5.1"/>
+      <message name="ROTORCRAFT_NAV_STATUS"  	period="1.6"/>
+      <!-- -->      
+    </mode>
+
+    <mode name="tune_hover">
+      <message name="DL_VALUE"          	period="1.10"/>
+      <message name="ROTORCRAFT_STATUS"       	period="1.20"/>
+      <message name="ROTORCRAFT_FP"          	period="0.50"/>
+      <message name="ALIVE"             	period="2.10"/>
+      <message name="INS_REF"     		period="5.10"/>
+      <message name="ROTORCRAFT_NAV_STATUS"  	period="1.60"/>
+      <!-- -->      
+      <message name="HOVER_LOOP"        	period="0.15"/>
+      <message name="VERT_LOOP"         	period="0.15"/>
+      <message name="STAB_ATTITUDE"     	period="0.30"/> 
+      <message name="VFF"               	period="0.10"/>
+    </mode>
+
+
+  </process>
+
+</telemetry>

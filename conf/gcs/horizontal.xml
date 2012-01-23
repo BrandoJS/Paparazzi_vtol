@@ -1,0 +1,43 @@
+<!DOCTYPE layout SYSTEM "layout.dtd">
+
+<layout width="1366" height="768">
+ <rows>
+  <widget size="450" name="map2d">
+      <papget type="message_field" display="text" x="1050" y="10">
+        <property name="field" value="ROTORCRAFT_FP.up"/>
+        <property name="scale" value="0.0039063"/>
+        <property name="format" value="Baro :%.2fm"/>
+        <property name="size" value="15."/>
+        <property name="color" value="Red"/>
+      </papget>
+      <papget type="message_field" display="text" x="1025" y="30">
+        <property name="field" value="ROTORCRAFT.psi"/>
+        <property name="scale" value="0.0139882"/>
+        <property name="format" value="HEADING :%.1fdeg"/>
+        <property name="size" value="15"/>
+        <property name="color" value="Red"/>
+      </papget>
+      <papget type="message_field" display="led" x="1080" y="60">
+        <property name="field" value="AGGIE_CAP.cam_on"/>
+        <!--<property name="values" value="OFF|ON"/> -->
+        <property name="format" value="Cam : %.f"/>
+        <property name="size" value="15"/>
+        <property name="color" value="Red"/>
+      </papget>
+      <papget type="message_field" display="text" x="1100" y="50">
+        <property name="field" value="AGGIE_CAP.image_count"/>
+        <!--<property name="values" value="OFF|ON"/> -->
+        <property name="format" value="Count : %.f"/>
+        <property name="size" value="15"/>
+        <property name="color" value="Red"/>
+      </papget>
+  </widget>
+  <columns>
+   <rows size="425">
+    <widget size="200" name="strips"/>
+   </rows>
+   <widget size="650" name="aircraft"/>
+   <widget name="alarms"/>
+  </columns>
+ </rows>
+</layout>

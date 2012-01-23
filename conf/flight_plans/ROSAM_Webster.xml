@@ -1,0 +1,144 @@
+<!DOCTYPE flight_plan SYSTEM "flight_plan.dtd">
+
+<flight_plan alt="62" ground_alt="12" lat0="38.147382" lon0="-76.426657" max_dist_from_home="2000" name="Webster" qfu="270" security_height="2">
+  <header>
+#include "datalink.h"
+</header>
+  <waypoints>
+    <waypoint alt="90.0" name="HOME" x="79.5" y="38.7"/>
+    <waypoint alt="65.0" name="LAND" x="0.0" y="0.0"/>
+    <waypoint name="CLIMB" x="4.9" y="1.9"/>
+    <waypoint lat="38.145327778" lon="-76.428638889" name="W1"/>
+    <waypoint lat="38.148261111" lon="-76.429108333" name="W2"/>
+    <waypoint lat="38.149838889" lon="-76.429708333" name="W3"/>
+    <waypoint alt="80.0" name="p1" x="17.6" y="-37.9"/>
+    <waypoint alt="80.0" name="p2" x="37.6" y="-37.9"/>
+    <waypoint alt="80.0" name="p3" x="86.3" y="-59.3"/>
+    <waypoint alt="80.0" name="p4" x="108.0" y="2.6"/>
+    <waypoint alt="80.0" name="p5" x="107.1" y="73.1"/>
+    <waypoint alt="80.0" name="p6" x="75.8" y="90.8"/>
+    <waypoint alt="80.0" name="p7" x="40.6" y="77.3"/>
+    <waypoint alt="70.0" name="STDBY" x="76.2" y="10.6"/>
+    <waypoint name="A1" lat="38.1454" lon="-76.431586111"/>
+    <waypoint name="A2" lat="38.143425" lon="-76.435358333"/>
+    <waypoint name="A3" lat="38.134039444" lon="-76.432627778"/>
+    <waypoint name="A4" lat="38.141569444" lon="-76.426202778"/>
+    <waypoint name="A5" lat="38.1454" lon="-76.431586111"/>
+    <waypoint name="A6" lat="38.143425" lon="-76.435358333"/>
+    <waypoint name="A7" lat="38.1454" lon="-76.431586111"/>
+    <waypoint name="A8" lat="38.143425" lon="-76.435358333"/>
+    <waypoint name="A9" lat="38.1454" lon="-76.431586111"/>
+    <waypoint name="A10" lat="38.143425" lon="-76.435358333"/>
+    <waypoint name="A11" lat="38.1454" lon="-76.431586111"/>
+    <waypoint name="A12" lat="38.143425" lon="-76.435358333"/>
+    <waypoint alt="20.0" name="o1" x="18.4" y="201.2"/>
+    <waypoint alt="20.0" name="o2" x="-15.8" y="348.7"/>
+    <waypoint alt="20.0" name="o3" x="-244.6" y="337.9"/>
+    <waypoint alt="20.0" name="o4" x="-380.4" y="156.3"/>
+    <waypoint alt="20.0" name="o5" x="-294.0" y="-117.9"/>
+    <waypoint alt="20.0" name="o6" x="81.6" y="-155.9"/>
+    <waypoint alt="20.0" name="o7" x="358.5" y="68.0"/>
+    <waypoint alt="30.0" name="o8" x="210.7" y="307.9"/>
+    <waypoint name="G1" x="-440.7" y="529.7"/>
+    <waypoint name="G2" x="461.2" y="519.4"/>
+    <waypoint name="G3" x="443.4" y="-255.7"/>
+    <waypoint name="G4" x="-490.3" y="-260.0"/>
+    <waypoint alt="50.0" name="PopUp" x="65.3" y="63.5"/>
+    
+  </waypoints>
+  <sectors>
+    <sector name="Flight_Box">
+      <corner name="A1"/>
+      <corner name="A2"/>
+      <corner name="A3"/>
+      <corner name="A4"/>
+      <corner name="A5"/>
+      <corner name="A6"/>
+      <corner name="A7"/>
+      <corner name="A8"/>
+      <corner name="A9"/>
+      <corner name="A10"/>
+      <corner name="A11"/>
+      <corner name="A12"/>
+    </sector>
+  </sectors>
+  <exceptions>
+    <exception cond="datalink_time > 60" deroute="Standby"/>
+  </exceptions>
+  <blocks>
+    <block name="Wait GPS">
+      <call fun="NavKillThrottle()"/>
+      <while cond="!GpsFixValid()"/>
+    </block>
+    <block name="Geo init">
+      <while cond="LessThan(NavBlockTime(), 25)"/>
+      <call fun="NavSetGroundReferenceHere()"/>
+    </block>
+    <block name="Holding point">
+      <call fun="NavKillThrottle()"/>
+      <attitude pitch="0" roll="0" throttle="0" until="FALSE" vmode="throttle"/>
+    </block>
+    <block name="Takeoff" strip_button="Takeoff" strip_icon="takeoff.png">
+      <call fun="NavResurrect()"/>
+      <call fun="NavSetWaypointHere(WP_CLIMB)"/>
+      <while cond="LessThan(NavBlockTime(), 6)"/>
+      <go climb="0.5" vmode="climb" wp="CLIMB"/>
+    </block>
+    <block name="Standby" strip_button="Standby" strip_icon="home.png">
+      <stay wp="HOME"/>
+    </block>
+    <block name="stay_p1">
+      <stay wp="p1"/>
+    </block>
+    <block name="stay_p2">
+      <stay wp="p2"/>
+    </block>
+    <block name="Waypoints">
+      <go wp="p3"/>
+    </block>
+    <block name="p4">
+      <go wp="p4"/>
+    </block>
+    <block name="p5">
+      <go wp="p5"/>
+    </block>
+    <block name="p6">
+      <go wp="p6"/>
+    </block>
+    <block name="p7">
+      <go wp="p7"/>
+    </block>
+    <block name="Done">
+      <go wp="STDBY"/>
+      <stay wp="STDBY"/>
+    </block>
+    <block name="PopUp">
+      <stay wp="PopUp"/>
+    </block>
+    <block name="line_p1_p2">
+      <go from="p1" hmode="route" wp="p2"/>
+      <go from="p2" hmode="route" wp="p1"/>
+      <deroute block="stay_p1"/>
+    </block>
+    <block name="lines">
+      <go from="p1" hmode="route" wp="p2"/>
+      <go from="p2" hmode="route" wp="p3"/>
+      <stay wp="p3"/>
+    </block>
+    <block name="lines2">
+      <go from="p3" hmode="route" wp="p4"/>
+      <go from="p4" hmode="route" wp="p5"/>
+      <go from="p5" hmode="route" wp="p6"/>
+      <go from="p6" hmode="route" wp="p7"/>
+      <go from="p7" hmode="route" wp="STDBY"/>
+    </block>
+    <block name="land">
+      <go wp="LAND"/>
+    </block>
+    <block name="flare">
+      <exception cond="NavDetectGround()" deroute="Holding point"/>
+      <call fun="NavStartDetectGround()"/>
+      <stay climb="-0.2" vmode="climb" wp="LAND"/>
+    </block>
+  </blocks>
+</flight_plan>

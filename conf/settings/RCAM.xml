@@ -1,0 +1,11 @@
+<!DOCTYPE settings SYSTEM "settings.dtd">
+
+<settings>
+  <dl_settings NAME="ROSAM CAM">
+    <dl_settings NAME="Switches">
+      <dl_setting var="power_mode" min="0" max="2" step="1" module="ROSAM_CAM/rcam" values="OFF|ON|Blinks" shortname="Lights">
+      </dl_setting>
+      <dl_setting var="camera_mode" min="0" max="2" step="1" values="OFF|MANUAL|AUTO"/>
+    </dl_settings>
+  </dl_settings>
+</settings>

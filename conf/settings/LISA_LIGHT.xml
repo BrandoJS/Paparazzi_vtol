@@ -1,0 +1,11 @@
+<!DOCTYPE settings SYSTEM "settings.dtd">
+
+<settings>
+  <dl_settings NAME="LISA_LIGHT">
+    <dl_settings NAME="Lights">
+      <dl_setting var="light_1_mode" min="0" max="6" step="1" module="LISA_LIGHT/l_light" values="OFF|ON|Blink1|Blink2|Blink3|C1|C2" shortname="Lights">
+      </dl_setting>
+      <dl_setting var="light_2_mode" min="0" max="6" step="1" values="OFF|ON|Blink1|Blink2|Blink3|C1|C2" />
+    </dl_settings>
+  </dl_settings>
+</settings>

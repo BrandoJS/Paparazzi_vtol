@@ -1,0 +1,194 @@
+<!DOCTYPE flight_plan SYSTEM "flight_plan.dtd">
+
+<flight_plan alt="1410" ground_alt="1353" lat0="41.815640" lon0="-111.981760" max_dist_from_home="1500" name="UAS09Practise" security_height="25">
+  <header>
+#include "nav_line.h"
+#include "datalink.h"
+#include "traffic_info.h"
+#include "OSAMNav.h"
+</header>
+  <waypoints>
+    <waypoint alt="1347.0" name="HOME" x="362.7" y="-9.6"/>
+    <waypoint alt="1350.0" name="Bungee" x="-14.8" y="-56.5"/>
+    <waypoint alt="1471.0" name="STDBY" x="154.3" y="141.6"/>
+    <waypoint name="A1" x="18.4" y="94.4"/>
+    <waypoint name="A2" x="-313.6" y="-119.6"/>
+    <waypoint name="A3" x="-80.3" y="-459.6"/>
+    <waypoint name="A4" x="192.0" y="-333.4"/>
+    <waypoint name="A5" x="481.0" y="-535.5"/>
+    <waypoint name="A6" x="712.2" y="-337.4"/>
+    <waypoint name="A7" x="562.2" y="-57.3"/>
+    <waypoint name="A8" x="736.3" y="70.4"/>
+    <waypoint name="A9" x="661.5" y="274.5"/>
+    <waypoint name="A10" x="416.3" y="134.6"/>
+    <waypoint name="A11" x="242.7" y="748.6"/>
+    <waypoint name="A12" x="-244.5" y="730.5"/>
+    <waypoint alt="1441.0" name="1" x="30.8" y="-224"/>
+    <waypoint alt="1441.0" name="2" x="425.4" y="-224"/>
+    <waypoint name="Too Far" x="645.3" y="237.8"/>
+    <waypoint name="CLIMB" x="280.1" y="311.9"/>
+    <waypoint alt="1441.0" name="S1" x="63.3" y="10.5"/>
+    <waypoint alt="1441.0" name="S2" x="-226.3" y="-141.6"/>
+    <waypoint alt="1441.0" name="S3" x="-69.5" y="-392.6"/>
+    <waypoint alt="1441.0" name="S4" x="212.2" y="-283.4"/>
+    <waypoint alt="1441.0" name="S5" x="476.8" y="-496.5"/>
+    <waypoint alt="1441.0" name="S6" x="669.5" y="-314.5"/>
+    <waypoint alt="1441.0" name="S7" x="517.2" y="-84"/>
+    <waypoint alt="1441.0" name="E1" x="108.4" y="-10.9"/>
+    <waypoint alt="1501.2" name="W1" x="276.3" y="82.4"/>
+    <waypoint alt="1501.2" name="W2" x="240.2" y="408.6"/>
+    <waypoint alt="1501.2" name="W3" x="191.5" y="584.4"/>
+    <waypoint alt="1501.2" name="W4" x="65.0" y="592.6"/>
+    <waypoint alt="1501.2" name="W5" x="-38.3" y="522.6"/>
+    <waypoint alt="1501.2" name="W6" x="50.2" y="406.6"/>
+    <waypoint alt="1501.2" name="W7" x="48.2" y="291.9"/>
+    <waypoint alt="1414.0" name="WT" x="47.2" y="353.1"/>
+    <waypoint alt="1414.0" name="W8" x="232.1" y="172.5"/>
+    <waypoint alt="1414.0" name="W9" x="246.1" y="-27.5"/>
+    <waypoint alt="1441.0" name="POPS1" x="-551.8" y="179.2"/>
+    <waypoint alt="1441.0" name="POPS2" x="-553.2" y="110.6"/>
+    <waypoint alt="1441.0" name="POPW1" x="-562.3" y="285.2"/>
+    <waypoint alt="1441.0" name="POPW2" x="-447.2" y="290.4"/>
+    <waypoint alt="1441.0" name="POPW3" x="-563.4" y="228.5"/>
+    <waypoint alt="1441.0" name="POPW4" x="-447.9" y="228.1"/>
+    <waypoint alt="1375.0" name="AF" x="-324.2" y="-49.9"/>
+    <waypoint alt="1346.0" name="TD" x="-4.2" y="-49.9"/>
+    <waypoint name="_BASELEG" x="326.8" y="142.8"/>
+    <waypoint name="land assist" x="334.2" y="-58.2"/>
+    <waypoint alt="1441.0" name="search assist" x="228.1" y="-146.7"/>
+    <waypoint alt="1448.0" name="T0" x="152.5" y="227.3"/>
+  </waypoints>
+  <sectors>
+    <sector name="FlightBoundry">
+      <corner name="A12"/>
+      <corner name="A11"/>
+      <corner name="A10"/>
+      <corner name="A9"/>
+      <corner name="A8"/>
+      <corner name="A7"/>
+      <corner name="A6"/>
+      <corner name="A5"/>
+      <corner name="A4"/>
+      <corner name="A3"/>
+      <corner name="A2"/>
+      <corner name="A1"/>
+    </sector>
+    <sector name="Search_Area">
+      <corner name="S7"/>
+      <corner name="S6"/>
+      <corner name="S5"/>
+      <corner name="S4"/>
+      <corner name="S1"/>
+      <corner name="S2"/>
+      <corner name="S3"/>
+    </sector>
+  </sectors>
+  <exceptions>
+    <exception cond="datalink_time > 15" deroute="circle"/>
+  </exceptions>
+  <blocks>
+    <block name="Takeoff" strip_button="Takeoff (wp CLIMB)" strip_icon="takeoff.png">
+      <call fun="InitializeBungeeTakeoff(WP_Bungee)"/>
+      <call fun="BungeeTakeoff()"/>
+    </block>
+    <block name="circle">
+      <circle alt="ground_alt+100" radius="85" wp="T0"/>
+    </block>
+    <block name="circle home">
+      <circle alt="ground_alt+75" radius="85" wp="HOME"/>
+    </block>
+    <block name="high_circle">
+      <circle alt="ground_alt+150" radius="85" wp="T0"/>
+    </block>
+    <block name="Standby" strip_button="Standby" strip_icon="home.png">
+      <circle radius="nav_radius" wp="STDBY"/>
+    </block>
+    <block name="StandbyLeft">
+      <circle radius="-nav_radius" wp="STDBY"/>
+    </block>
+    <block name="Go to far">
+      <go wp="Too Far"/>
+    </block>
+    <block name="Follow Waypoints">
+      <go approaching_time="1" wp="W1"/>
+    </block>
+    <block name="Way2">
+      <go approaching_time="1" from="W1" hmode="route" wp="W2"/>
+    </block>
+    <block name="Way3">
+      <go approaching_time="1" from="W2" hmode="route" wp="W3"/>
+    </block>
+    <block name="Way4">
+      <go approaching_time="1" from="W3" hmode="route" wp="W4"/>
+    </block>
+    <block name="Way5">
+      <go approaching_time="1" from="W4" hmode="route" wp="W5"/>
+    </block>
+    <block name="Way6">
+      <go approaching_time="1" from="W5" hmode="route" wp="W6"/>
+    </block>
+    <block name="Way7">
+      <go approaching_time="1" from="W6" hmode="route" wp="W7"/>
+    </block>
+    <block name="circle descend">
+      <circle alt="ground_alt+61" radius="85" until="ground_alt + 68 > estimator_z && NavCircleCount() > 1" wp="WT"/>
+    </block>
+    <block name="Way8">
+      <go approaching_time="1" from="W7" hmode="route" wp="W8"/>
+    </block>
+    <block name="Way9">
+      <go approaching_time="1" from="W8" hmode="route" wp="W9"/>
+      <deroute block="Circle for Search"/>
+    </block>
+    <block name="Pop Up Waypoint 1">
+      <go approaching_time="1" wp="POPW1"/>
+      <deroute block="circle"/>
+    </block>
+    <block name="Pop Up Waypoint 2">
+      <go approaching_time="1" wp="POPW2"/>
+      <deroute block="circle"/>
+    </block>
+    <block name="survey between Pop Up Way 3&4">
+      <while cond="TRUE">
+        <go approaching_time="1" from="POPW3" hmode="route" wp="POPW4"/>
+        <go approaching_time="1" from="POPW4" hmode="route" wp="POPW3"/>
+      </while>
+    </block>
+    <block name="Circle for Search">
+      <circle alt="ground_alt+100" radius="-85" wp="search assist"/>
+    </block>
+    <block name="Line 1-2 Road Search" strip_button="Line (wp 1-2)" strip_icon="line.png">
+      <call fun="nav_line_init()"/>
+      <call fun="nav_line(WP_1, WP_2, nav_radius)"/>
+    </block>
+    <block name="Poly Survey">
+      <call fun="InitializePolygonSurvey(WP_S1, 4, 150, 90)"/>
+      <call fun="PolygonSurvey()"/>
+    </block>
+    <block name="Search Area">
+      <survey_rectangle grid="170" wp1="S1" wp2="S3"/>
+    </block>
+    <block name="Pop Up Search Area">
+      <while cond="TRUE">
+        <survey_rectangle grid="150" wp1="POPS1" wp2="POPS2"/>
+      </while>
+    </block>
+    <block name="Circle for Land">
+      <circle alt="ground_alt+70" radius="85" wp="land assist"/>
+    </block>
+    <block name="HARD KILL">
+      <set value="1" var="kill_throttle"/>
+      <set value="TRUE" var="h_ctl_disabled"/>
+      <set value="(-0.75*MAX_PPRZ)" var="h_ctl_aileron_setpoint"/>
+      <set value="(0.75*MAX_PPRZ)" var="h_ctl_elevator_setpoint"/>
+    </block>
+    <block name="Land Right AF-TD" strip_button="Land right (wp AF-TD)" strip_icon="land-right.png">
+      <call fun="InitializeSkidLanding(WP_AF, WP_TD, DEFAULT_LANDING_CIRCLE_RADIUS)"/>
+      <call fun="SkidLanding()"/>
+    </block>
+    <block name="Land Left AF-TD" strip_button="Land left (wp AF-TD)" strip_icon="land-left.png">
+      <call fun="InitializeSkidLanding(WP_AF, WP_TD, -DEFAULT_LANDING_CIRCLE_RADIUS)"/>
+      <call fun="SkidLanding()"/>
+    </block>
+  </blocks>
+</flight_plan>

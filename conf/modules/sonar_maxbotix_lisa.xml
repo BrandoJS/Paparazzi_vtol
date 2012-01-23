@@ -1,0 +1,25 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<!--
+     Maxbotix Sonar driver
+     @configure ADC_SONAR on which ADC the sensor is connected
+
+     
+     -->
+
+<module name="sonar">
+  <header>
+    <file name="sonar_maxbotix_lisa.h"/>
+    <file name="../../subsystems/ins.h"/>
+  </header>
+  <init fun="maxbotix_init()"/>
+  <periodic fun="maxbotix_read()" freq="3"/>
+  <event fun="SonarEvent(ins_update_sonar)"/>
+  <makefile>
+    <file name="sonar_maxbotix_lisa.c"/>
+    <define name="Sonar"/>
+    <define name="USE_SONAR"/>
+  </makefile>
+  
+
+</module>

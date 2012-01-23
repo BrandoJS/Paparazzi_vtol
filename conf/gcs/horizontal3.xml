@@ -1,0 +1,21 @@
+<!DOCTYPE layout SYSTEM "layout.dtd">
+
+<layout width="1366" height="768">
+ <columns>
+   <rows size="400">
+      <widget size="300" name="strips"/>
+      
+      <widget name="alarms"/>
+   </rows>
+   <rows>
+     <widget name="map2d" size="500">
+       <papget type="message_field" display="ruler" x="900" y="200">
+        <property name="field" value="ESTIMATOR:z"/>
+        <property name="scale" value="1"/>
+        <property NAME="height" VALUE="200"/>
+       </papget>
+     </widget>
+     <widget name="aircraft"/>
+   </rows>
+ </columns>
+</layout>

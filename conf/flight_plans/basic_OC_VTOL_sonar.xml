@@ -1,0 +1,117 @@
+<!DOCTYPE flight_plan SYSTEM "flight_plan.dtd">
+
+<flight_plan alt="1476" ground_alt="1462" lat0="41.742852" lon0="-111.806738" max_dist_from_home="1500" name="Basic" qfu="90" security_height="5">
+  <header>
+#include "subsystems/navigation/nav_line.h"
+#include "subsystems/datalink/datalink.h"
+#include "subsystems/navigation/OSAMNav.h"
+#include "subsystems/ins.h"
+</header>
+  <waypoints>
+    <waypoint name="HOME" x="0" y="0"/>
+    <waypoint name="STDBY" x="7.4" y="-8.4"/>
+    <waypoint name="p1" x="15.1" y="-1.7"/>
+    <waypoint name="p2" x="15.7" y="-21.5"/>
+    <waypoint name="p3" x="7.7" y="-2.1"/>
+    <waypoint name="p4" x="7.0" y="-15.9"/>
+    <waypoint name="p5" x="27.5" y="-17.4"/>
+    <waypoint name="l1" x="23.8" y="-6.1"/>
+    <waypoint name="l2" x="23.5" y="-28.2"/>
+    <waypoint name="l3" x="15.7" y="-15.8"/>
+    <waypoint name="l4" x="15.2" y="-6.6"/>
+    <waypoint name="LAUNCH" x="60.5" y="-3.8"/>
+    <waypoint name="LAND" x="15.7" y="2.6"/>
+    <waypoint name="STOP" x="57.7" y="7.6"/>
+    <waypoint name="m1" x="800" y="-800"/>
+    <waypoint name="m2" x="800" y="800"/>
+    <waypoint name="m3" x="-800" y="800"/>
+    <waypoint name="m4" x="-800" y="-800"/>
+    <waypoint name="E_LAND" x="64.5" y="-14.2"/>
+  </waypoints>
+  <exceptions>
+    <exception cond="datalink_time > 30" deroute="Standby"/>
+  </exceptions>
+  <blocks>
+    <block name="Wait GPS">
+      <call fun="NavKillThrottle()"/>
+      <while cond="!GpsFixValid()"/>
+    </block>
+    <block name="Geo init">
+      <while cond="LessThan(NavBlockTime(), 45)"/>
+    </block>
+    <block name="Holding point">
+      <call fun="NavKillThrottle()"/>
+      <attitude pitch="0" roll="0" throttle="0" until="FALSE" vmode="throttle"/>
+    </block>
+    <block name="Takeoff" strip_button="Takeoff" strip_icon="takeoff.png">
+      <call fun="NavResurrect()"/>
+      <call fun="NavSetWaypointHere(WP_LAUNCH)"/>
+      <while cond="LessThan(NavBlockTime(), 6)"/>
+      <go climb="0.5" vmode="climb" wp="LAUNCH"/>
+      <stay wp="LAUNCH"/>
+    </block>
+    <block name="Standby" strip_button="Standby" strip_icon="home.png">
+      <stay wp="STDBY"/>
+    </block>
+    <block name="stay_p1">
+      <stay wp="p1"/>
+    </block>
+    <block name="stay_p2">
+      <stay wp="p2"/>
+    </block>
+    <block name="stay_p3">
+      <stay wp="p4"/>
+    </block>
+    <block name="stay_p4">
+      <stay wp="p4"/>
+    </block>
+    <block name="stay_p5">
+      <stay wp="p5"/>
+    </block>
+    <block name="STOP" strip_button="Stop" strip_icon="mob.png">
+      <call fun="NavSetWaypointHere(WP_STOP)"/>
+      <stay wp="STOP"/>
+    </block>
+    <block name="Patrol_L1_L2" strip_button="Patrol" strip_icon="observe.png">
+      <while cond="TRUE">
+        <go from="l1" hmode="route" wp="l2"/>
+        <go from="l2" hmode="route" wp="l1"/>
+        <while cond="30 > stage_time">
+          <stay wp="l1"/>
+        </while>
+      </while>
+    </block>
+    <block name="lines" strip_button="Lines" strip_icon="path.png">
+      <go from="STDBY" hmode="route" wp="l1"/>
+      <go from="l1" hmode="route" wp="l2"/>
+      <go from="l2" hmode="route" wp="l3"/>
+      <go from="l3" hmode="route" wp="l4"/>
+      <go from="l4" hmode="route" wp="STDBY"/>
+      <deroute block="Standby"/>
+    </block>
+    <block name="E_land" strip_button="Emergency_Land" strip_icon="parachute.png">
+      <call fun="NavSetWaypointHere(WP_E_LAND)"/>
+      <while cond="15 > stage_time">
+        <stay wp="E_LAND"/>
+      </while>
+      <while cond="d_sonar > 0.15">
+        <stay climb="-0.1" vmode="climb" wp="E_LAND"/>
+      </while>
+      <call fun="NavKillThrottle()"/>
+      <deroute block="Holding point"/>
+    </block>
+    <block name="Prepare_Landing" strip_button="Lock_on_Landing" strip_icon="cam_lock.png">
+      <go wp="LAND"/>
+    </block>
+    <block name="Ready_to_Land">
+      <stay wp="LAND"/>
+    </block>
+    <block name="Land" strip_button="Land" strip_icon="downdown.png">
+      <while cond="d_sonar > 0.15">
+        <stay climb="-0.1" vmode="climb" wp="LAND"/>
+      </while>
+      <call fun="NavKillThrottle()"/>
+      <deroute block="Holding point"/>
+    </block>
+  </blocks>
+</flight_plan>

@@ -1,0 +1,22 @@
+<!DOCTYPE module SYSTEM "module.dtd">
+
+<module name="LISA_CAM_TRACK">
+  <header>
+    <file name="lisa_ctrack.h"/>
+  </header>
+  <init fun="init_lisa_ctrack()"/>
+  <periodic fun="periodic_lisa_ctrack()" period=".05" autorun="TRUE"/>
+  <makefile>
+
+<!-- 
+  <modules main_freq="512">
+    <load name="LISA_CAM_TRACK.xml">
+    </load>
+  </modules>
+
+-->
+    <define name="lisa_ctrack"/>
+    <file name="lisa_ctrack.c"/>
+  </makefile>
+</module>
+

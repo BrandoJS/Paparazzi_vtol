@@ -1,0 +1,8 @@
+    #!/bin/bash
+    clear
+    pwd
+    export PAPARAZZI_HOME=`pwd`;
+    export PAPARAZZI_SRC=`pwd`;
+    env | grep PAPARAZZI
+ 
+

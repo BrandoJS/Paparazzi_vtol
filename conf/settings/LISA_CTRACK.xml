@@ -1,0 +1,14 @@
+<!DOCTYPE settings SYSTEM "settings.dtd">
+
+<settings>
+  <dl_settings NAME="LISA_CTRACK">
+    <dl_settings NAME="Camera Tracking">
+      <dl_setting var="track_mode" min="0" max="5" step="1" module="LISA_CAM_TRACK/lisa_ctrack" values="OFF|MANUAL|AUTO|LEVEL|MLEVEL|LOOK"/>
+      <dl_setting var="m.p" min="0" max="180" step="1" module="LISA_CAM_TRACK/lisa_ctrack" shortname="Servo 1"/>
+      <dl_setting var="m.y" min="0" max="180" step="1" module="LISA_CAM_TRACK/lisa_ctrack" shortname="Servo 2"/>
+      <dl_setting var="d_level" min="-90" max="90" step="1" module="LISA_CAM_TRACK/lisa_ctrack" shortname="Level Angle"/>
+      <dl_setting var="x_star" min="0" max="10" step="1" module="LISA_CAM_TRACK/lisa_ctrack" shortname="Look Ahead Distance"/>
+      
+    </dl_settings>
+  </dl_settings>
+</settings>
